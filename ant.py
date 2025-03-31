@@ -3,10 +3,10 @@ import random
 
 pygame.init()
 
-SCREEN_HEIGHT = 1080 
-SCREEN_WIDTH = 1920
+SCREEN_HEIGHT = 1000 
+SCREEN_WIDTH = 1000
 TILE_SIZE = 10
-FPS = 120
+FPS = 240
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
 clock = pygame.time.Clock()
@@ -19,21 +19,35 @@ class Ant:
 
     def turn_left(self):
         x, y = self.movement
+        if abs(x) == abs(y):
+            self.movement = (0, -y) if x == y else (-x, 0)
         self.movement = (y, -x)
 
     def turn_right(self):
         x, y = self.movement
+        if abs(x) == abs(y):
+            self.movement = (-x, 0) if x == y else (0, -y)
         self.movement = (-y, x)
 
-    def generate_step(self, white_tiles):
+    def move_diagonally(self):
+        self.movement = random.choice([(-1, -1), (-1, 1), (1, -1), (1, 1)])
+
+    def generate_step(self, colored_tiles):
         current_pos = (self.pos_x, self.pos_y)
 
-        if current_pos in white_tiles:
-            self.turn_right()
-            white_tiles.remove(current_pos)
+        if current_pos in colored_tiles:
+            if colored_tiles[current_pos] == "white":
+                self.turn_right()
+                colored_tiles[current_pos] = "grey52"
+            elif colored_tiles[current_pos] == "grey52":
+                self.move_diagonally() # self.turn_left() -> traditional langton ant 
+                colored_tiles[current_pos] = "grey32"
+            elif colored_tiles[current_pos] == "grey32":
+                self.turn_right()
+                colored_tiles.pop(current_pos)
         else:
             self.turn_left()
-            white_tiles.add(current_pos)
+            colored_tiles[current_pos] = "white"
 
         self.pos_x += self.movement[0]
         self.pos_y += self.movement[1]
@@ -41,25 +55,25 @@ class Ant:
         self.pos_x %= (SCREEN_WIDTH // TILE_SIZE)
         self.pos_y %= (SCREEN_HEIGHT // TILE_SIZE)
 
-    def draw_step(self, white_tiles):
-        for pos in white_tiles:
-            pygame.draw.rect(screen, pygame.Color("white"), (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE, TILE_SIZE, TILE_SIZE))
+    def draw_step(self, colored_tiles):
+        for pos, color in colored_tiles.items():
+            pygame.draw.rect(screen, pygame.Color(color), (pos[0] * TILE_SIZE, pos[1] * TILE_SIZE, TILE_SIZE, TILE_SIZE))
 
 def main():
     running = True
     ant = Ant()
-    white_tiles = {(ant.pos_x, ant.pos_y)}
+    colored_tiles = {(ant.pos_x, ant.pos_y): "white"}
 
     while running:
         clock.tick(FPS)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False 
-        
+                running = False
+
         screen.fill(pygame.Color("black"))
-        ant.generate_step(white_tiles)
-        ant.draw_step(white_tiles)
+        ant.generate_step(colored_tiles)
+        ant.draw_step(colored_tiles)
         pygame.display.update()
 
     pygame.quit()
