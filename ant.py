@@ -7,6 +7,10 @@ SCREEN_HEIGHT = 1000
 SCREEN_WIDTH = 1000
 TILE_SIZE = 10
 FPS = 240
+THEMES = {
+            "greyscale": ["black", "white", "grey52", "grey32"],
+            "sakura": ["lightpink4", "lightpink", "lightpink2", "lightpink3"]
+        }
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
 clock = pygame.time.Clock()
@@ -32,22 +36,23 @@ class Ant:
     def move_diagonally(self):
         self.movement = random.choice([(-1, -1), (-1, 1), (1, -1), (1, 1)])
 
-    def generate_step(self, colored_tiles):
+    def generate_step(self, colored_tiles, colors):
         current_pos = (self.pos_x, self.pos_y)
 
         if current_pos in colored_tiles:
-            if colored_tiles[current_pos] == "white":
+            if colored_tiles[current_pos] == colors[1]:
                 self.turn_right()
-                colored_tiles[current_pos] = "grey52"
-            elif colored_tiles[current_pos] == "grey52":
-                self.move_diagonally() # self.turn_left() -> traditional langton ant 
-                colored_tiles[current_pos] = "grey32"
-            elif colored_tiles[current_pos] == "grey32":
+                colored_tiles[current_pos] = colors[2]
+            elif colored_tiles[current_pos] == colors[2]:
+                # self.move_diagonally() # -> added diagonal movement  
+                self.turn_left() # -> traditional langton ant 
+                colored_tiles[current_pos] = colors[3]
+            elif colored_tiles[current_pos] == colors[3]:
                 self.turn_right()
                 colored_tiles.pop(current_pos)
         else:
             self.turn_left()
-            colored_tiles[current_pos] = "white"
+            colored_tiles[current_pos] = colors[1]
 
         self.pos_x += self.movement[0]
         self.pos_y += self.movement[1]
@@ -61,8 +66,9 @@ class Ant:
 
 def main():
     running = True
+    colors = THEMES["sakura"]
     ant = Ant()
-    colored_tiles = {(ant.pos_x, ant.pos_y): "white"}
+    colored_tiles = {(ant.pos_x, ant.pos_y): colors[1]}
 
     while running:
         clock.tick(FPS)
@@ -71,8 +77,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
 
-        screen.fill(pygame.Color("black"))
-        ant.generate_step(colored_tiles)
+        screen.fill(pygame.Color(colors[0]))
+        ant.generate_step(colored_tiles, colors)
         ant.draw_step(colored_tiles)
         pygame.display.update()
 
