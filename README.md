@@ -5,9 +5,11 @@ this is a simple visualization of langton's ant that i coded for fun. to make it
 ## previews
 
 ### traditional version:
-![traditional langton's ant generated image with four colors](imgs/preview_traditional.png)
-![pink version](imgs/preview_traditional_pink.png)
+| ![traditional langton's ant generated image with four colors](imgs/preview_traditional.png) | ![pink version](imgs/preview_traditional_pink.png) |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| ![blue version](imgs/preview_traditional_blue.png)                                          |                                                    |
 
 ### diagonal movement on one color:
-![langton's ant generated image with four colors and diagonal movement on one color](imgs/preview_with_diagonal.png)
-![pink version](imgs/preview_w_diagonal_pink.png)
+| ![langton's ant generated image with four colors and diagonal movement on one color](imgs/preview_with_diagonal.png) | ![pink version](imgs/preview_w_diagonal_pink.png) |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| ![blue version](imgs/preview_w_diagonal_blue.png)                                                                    |                                                   |

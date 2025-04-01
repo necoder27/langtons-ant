@@ -9,7 +9,8 @@ TILE_SIZE = 10
 FPS = 240
 THEMES = {
             "greyscale": ["black", "white", "grey52", "grey32"],
-            "sakura": ["lightpink4", "lightpink", "lightpink2", "lightpink3"]
+            "sakura": ["lightpink4", "lightpink", "lightpink2", "lightpink3"],
+            "ice": ["lightblue4", "lightblue1", "lightblue2", "lightblue3"],
         }
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
@@ -44,8 +45,8 @@ class Ant:
                 self.turn_right()
                 colored_tiles[current_pos] = colors[2]
             elif colored_tiles[current_pos] == colors[2]:
-                # self.move_diagonally() # -> added diagonal movement  
-                self.turn_left() # -> traditional langton ant 
+                self.move_diagonally() # -> added diagonal movement  
+                # self.turn_left() # -> traditional langton ant 
                 colored_tiles[current_pos] = colors[3]
             elif colored_tiles[current_pos] == colors[3]:
                 self.turn_right()
@@ -66,7 +67,7 @@ class Ant:
 
 def main():
     running = True
-    colors = THEMES["sakura"]
+    colors = THEMES["ice"]
     ant = Ant()
     colored_tiles = {(ant.pos_x, ant.pos_y): colors[1]}
 
