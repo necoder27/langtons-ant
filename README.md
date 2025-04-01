@@ -6,8 +6,8 @@ this is a simple visualization of langton's ant that i coded for fun. to make it
 
 ### traditional version:
 ![traditional langton's ant generated image with four colors](imgs/preview_traditional.png)
-![pink version](imgs/preview_traditional_pink)
+![pink version](imgs/preview_traditional_pink.png)
 
 ### diagonal movement on one color:
 ![langton's ant generated image with four colors and diagonal movement on one color](imgs/preview_with_diagonal.png)
-![pink version](imgs/preview_w_diagonal_pink)
+![pink version](imgs/preview_w_diagonal_pink.png)
